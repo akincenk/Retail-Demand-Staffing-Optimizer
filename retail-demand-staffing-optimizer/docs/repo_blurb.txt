@@ -1,0 +1,2 @@
+Retail Demand & Staffing Optimizer (v1) - Forecast demand and convert to staffing plans.
+FastAPI, SQLAlchemy, Alembic, Postgres, Docker Compose, CI, seed data, Postman, demo scripts.

@@ -1,0 +1,43 @@
+{
+  "info": {
+    "name": "Retail Demand & Staffing Optimizer v1",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Health",
+      "request": {
+        "method": "GET",
+        "url": "http://localhost:8000/health"
+      }
+    },
+    {
+      "name": "List Stores",
+      "request": {
+        "method": "GET",
+        "url": "http://localhost:8000/api/v1/stores"
+      }
+    },
+    {
+      "name": "List SKUs",
+      "request": {
+        "method": "GET",
+        "url": "http://localhost:8000/api/v1/skus"
+      }
+    },
+    {
+      "name": "Run Forecast (COFFEE)",
+      "request": {
+        "method": "POST",
+        "url": "http://localhost:8000/api/v1/forecast/run?store_code=STORE-001&sku_code=SKU-COFFEE&window=7&horizon=7"
+      }
+    },
+    {
+      "name": "Plan Staffing",
+      "request": {
+        "method": "GET",
+        "url": "http://localhost:8000/api/v1/staffing/plan?store_code=STORE-001&service_minutes_per_unit=0.5&shift_hours=8&min_staff=2&max_staff=12"
+      }
+    }
+  ]
+}
