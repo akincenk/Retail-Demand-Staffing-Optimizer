@@ -33,11 +33,44 @@
       }
     },
     {
+      "name": "Run Forecast (SAND)",
+      "request": {
+        "method": "POST",
+        "url": "http://localhost:8000/api/v1/forecast/run?store_code=STORE-001&sku_code=SKU-SAND&window=7&horizon=7"
+      }
+    },
+    {
       "name": "Plan Staffing",
       "request": {
         "method": "POST",
-        "url": "http://localhost:8000/api/v1/staffing/plan?store_code=STORE-001&service_minutes_per_unit=0.5&shift_hours=8&min_staff=2&max_staff=12"
+        "url": "http://localhost:8000/api/v1/staffing/plan?store_code=STORE-001&start=2025-01-31&end=2025-02-06&service_minutes_per_unit=0.5&shift_hours=8&min_staff=2&max_staff=12"
       }
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-API-Key",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "{{api_key}}",
+        "type": "string"
+      },
+      {
+        "key": "in",
+        "value": "header",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "api_key",
+      "value": "change-me"
     }
   ]
 }

@@ -1,4 +1,4 @@
-"""Load two stores, two SKUs and 30 days of synthetic sales. Run once on an empty database."""
+"""Load two stores, two SKUs and 30 days of synthetic sales (2025-01-01 to 2025-01-30). Run once on an empty database."""
 from datetime import date, timedelta
 
 from app.db.session import SessionLocal
@@ -14,7 +14,7 @@ def run():
         db.add_all([coffee, sandwich])
         db.flush()
 
-        start = date.today() - timedelta(days=30)
+        start = date(2025, 1, 1)  # fixed dates keep the README examples reproducible
         for i in range(30):
             d = start + timedelta(days=i)
             db.add(Sale(store_id=store.id, sku_id=coffee.id, d=d, units=80 + (i % 7) * 5))
