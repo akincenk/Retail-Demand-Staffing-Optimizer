@@ -36,8 +36,12 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
           cache: pip
+      # Upgrade the runner's preinstalled pip/setuptools so pip-audit does not flag old toolchain copies.
+      - run: python -m pip install -U pip setuptools
       - run: pip install -e ".[dev]"
       - run: ruff check .
+      - name: Audit dependencies for known vulnerabilities
+        run: pip-audit --skip-editable
       - name: Apply migrations and check they match the models
         run: |
           alembic upgrade head

@@ -4,19 +4,20 @@ version = "1.0.0"
 description = "Moving-average demand forecasts and staffing plans per store (FastAPI + SQLAlchemy + Alembic + PostgreSQL)"
 requires-python = ">=3.11"
 dependencies = [
-    "fastapi>=0.112.0",
-    "uvicorn[standard]>=0.30.0",
-    "pydantic>=2.7.0",
-    "SQLAlchemy>=2.0.30",
-    "psycopg[binary]>=3.2.0",
-    "alembic>=1.13.1",
+    "fastapi==0.143.0",
+    "uvicorn[standard]==0.54.0",
+    "pydantic==2.14.0",
+    "SQLAlchemy==2.1.4",
+    "psycopg[binary]==3.3.6",
+    "alembic==1.20.0",
 ]
 
 [project.optional-dependencies]
 dev = [
-    "pytest>=8.0.0",
-    "httpx>=0.27.0",
-    "ruff>=0.6.0",
+    "pytest==9.1.1",
+    "httpx==0.28.1",
+    "ruff==0.17.0",
+    "pip-audit==2.10.1",
 ]
 
 [build-system]
@@ -31,6 +32,11 @@ app = ["db/migrations/*.py", "db/migrations/versions/*.py"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+filterwarnings = [
+    "error",
+    # Starlette 1.x prefers httpx2 for TestClient; this is the only warning tolerated.
+    "ignore:Using `httpx` with `starlette.testclient` is deprecated",
+]
 
 [tool.ruff]
 line-length = 130
