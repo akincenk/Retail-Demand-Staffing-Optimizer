@@ -1,11 +1,17 @@
 from logging.config import fileConfig
+
 from alembic import context
 from sqlalchemy import engine_from_config, pool
+
+import app.models  # noqa: F401  (registers models on Base.metadata)
+from app.core.settings import settings
 from app.db.session import Base
-from app.models import store, sku, sale, forecast, staffing_plan
 
 config = context.config
-fileConfig(config.config_file_name)
+if config.config_file_name is not None:
+    fileConfig(config.config_file_name)
+# Escape % so ConfigParser interpolation does not mangle URL-encoded passwords.
+config.set_main_option("sqlalchemy.url", settings.database_url.replace("%", "%%"))
 
 target_metadata = Base.metadata
 

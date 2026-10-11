@@ -1,5 +1,6 @@
 from fastapi import APIRouter
-from . import stores, skus, sales, forecast, staffing, util
+
+from . import forecast, sales, skus, staffing, stores, util
 
 api_router = APIRouter(prefix="/api/v1")
 api_router.include_router(util.router, tags=["util"])

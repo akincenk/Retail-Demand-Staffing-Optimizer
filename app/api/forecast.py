@@ -1,10 +1,13 @@
 from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
+
+from app.api.lookup import get_sku, get_store
 from app.db.session import get_db
-from app.services.forecasting import moving_average_forecast
 from app.schemas.forecast import ForecastOut
+from app.services.forecasting import moving_average_forecast
 
 router = APIRouter()
+
 
 @router.post("/run", response_model=list[ForecastOut])
 def run_forecast(
@@ -14,8 +17,8 @@ def run_forecast(
     horizon: int = Query(7, ge=1, le=30),
     db: Session = Depends(get_db),
 ):
+    store, sku = get_store(db, store_code), get_sku(db, sku_code)
     try:
-        created = moving_average_forecast(db, store_code, sku_code, window=window, horizon=horizon)
-    except Exception as e:
-        raise HTTPException(status_code=400, detail=str(e))
-    return created
+        return moving_average_forecast(db, store.id, sku.id, window=window, horizon=horizon)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=f"{e} for this store/SKU") from e

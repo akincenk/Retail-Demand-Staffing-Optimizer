@@ -1,5 +1,7 @@
-from pydantic import BaseModel, Field
 from datetime import date
+
+from pydantic import BaseModel, Field
+
 
 class SaleIn(BaseModel):
     store_code: str
@@ -7,5 +9,6 @@ class SaleIn(BaseModel):
     d: date
     units: int = Field(ge=0)
 
+
 class SaleIngest(BaseModel):
-    items: list[SaleIn]
+    items: list[SaleIn] = Field(min_length=1, max_length=10_000)

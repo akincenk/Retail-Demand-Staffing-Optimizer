@@ -1,13 +1,15 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
+
 
 class StoreBase(BaseModel):
-    code: str = Field(..., max_length=64)
-    name: str = Field(..., max_length=255)
+    code: str = Field(..., min_length=1, max_length=64)
+    name: str = Field(..., min_length=1, max_length=255)
+
 
 class StoreCreate(StoreBase):
     pass
 
+
 class StoreOut(StoreBase):
+    model_config = ConfigDict(from_attributes=True)
     id: int
-    class Config:
-        from_attributes = True
