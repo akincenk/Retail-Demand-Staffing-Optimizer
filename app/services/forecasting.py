@@ -1,4 +1,5 @@
 from datetime import date, timedelta
+from uuid import uuid4
 
 from sqlalchemy import delete, select
 from sqlalchemy.orm import Session
@@ -23,7 +24,8 @@ def moving_average(daily_units: dict[date, int], window: int) -> float:
 def moving_average_forecast(db: Session, store_id: int, sku_id: int, window: int = 7, horizon: int = 7) -> list[Forecast]:
     """Flat moving-average forecast for the `horizon` days after the last sale.
 
-    Re-running replaces earlier forecasts for the same store, SKU and dates.
+    All rows of one call share a new run_id. Re-running replaces earlier forecasts for the same store, SKU and
+    dates; staffing only ever reads the latest run per SKU, so older rows for other dates are ignored.
     """
     rows = db.execute(select(Sale.d, Sale.units).where(Sale.store_id == store_id, Sale.sku_id == sku_id)).all()
     daily: dict[date, int] = {}
@@ -34,7 +36,8 @@ def moving_average_forecast(db: Session, store_id: int, sku_id: int, window: int
     last = max(daily)
     days = [last + timedelta(days=i) for i in range(1, horizon + 1)]
     db.execute(delete(Forecast).where(Forecast.store_id == store_id, Forecast.sku_id == sku_id, Forecast.d.in_(days)))
-    created = [Forecast(store_id=store_id, sku_id=sku_id, d=d, units=avg, method="ma") for d in days]
+    run_id = str(uuid4())
+    created = [Forecast(store_id=store_id, sku_id=sku_id, d=d, units=avg, method="ma", run_id=run_id) for d in days]
     db.add_all(created)
     db.commit()
     return created

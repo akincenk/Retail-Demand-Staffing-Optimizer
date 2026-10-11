@@ -9,4 +9,5 @@ class ForecastOut(BaseModel):
     sku_id: int
     d: date
     units: int
+    run_id: str
     method: str
