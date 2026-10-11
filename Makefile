@@ -1,14 +1,16 @@
 up:
-	docker compose -f infra/docker-compose.yml up -d --build
+	docker compose up -d --build
 down:
-	docker compose -f infra/docker-compose.yml down
+	docker compose down
 logs:
-	docker compose -f infra/docker-compose.yml logs -f --tail=200 api
-migrate:
-	docker compose -f infra/docker-compose.yml exec api alembic revision -m "$${msg}"
+	docker compose logs -f --tail=200 api
+revision:
+	alembic revision --autogenerate -m "$${msg}"
 upgrade:
-	docker compose -f infra/docker-compose.yml exec api alembic upgrade head
-seed:
-	docker compose -f infra/docker-compose.yml exec api python -m app.seed.seed_demo
+	alembic upgrade head
+lint:
+	ruff check .
 test:
-	docker compose -f infra/docker-compose.yml exec api pytest -q
+	pytest -q
+seed:
+	docker compose exec api python -m app.seed.seed_demo

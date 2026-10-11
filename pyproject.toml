@@ -1,8 +1,8 @@
 [project]
 name = "retail-demand-staffing-optimizer"
 version = "1.0.0"
-description = "Forecast daily demand and produce staffing plans"
-requires-python = ">=3.10"
+description = "Moving-average demand forecasts and staffing plans per store (FastAPI + SQLAlchemy + Alembic + PostgreSQL)"
+requires-python = ">=3.11"
 dependencies = [
     "fastapi>=0.112.0",
     "uvicorn[standard]>=0.30.0",
@@ -10,10 +10,32 @@ dependencies = [
     "SQLAlchemy>=2.0.30",
     "psycopg[binary]>=3.2.0",
     "alembic>=1.13.1",
-    "python-dotenv>=1.0.1",
-    "httpx>=0.27.0",
-    "pytest>=8.0.0",
-    "numpy>=1.26.0",
 ]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+    "httpx>=0.27.0",
+    "ruff>=0.6.0",
+]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["app*"]
+
+[tool.setuptools.package-data]
+app = ["db/migrations/*.py", "db/migrations/versions/*.py"]
+
 [tool.pytest.ini_options]
-testpaths = ["backend/tests"]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 130
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B"]
+ignore = ["B008"]  # FastAPI's Depends() in defaults is idiomatic
