@@ -1,6 +1,6 @@
 {
   "info": {
-    "name": "Retail Demand & Staffing Optimizer v1",
+    "name": "Retail Demand & Staffing Optimizer",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
@@ -35,7 +35,7 @@
     {
       "name": "Plan Staffing",
       "request": {
-        "method": "GET",
+        "method": "POST",
         "url": "http://localhost:8000/api/v1/staffing/plan?store_code=STORE-001&service_minutes_per_unit=0.5&shift_hours=8&min_staff=2&max_staff=12"
       }
     }
