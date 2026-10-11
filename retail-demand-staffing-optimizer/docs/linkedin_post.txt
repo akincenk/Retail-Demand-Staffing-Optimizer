@@ -1,9 +1,0 @@
-I built a Retail Demand & Staffing Optimizer — a production-grade FastAPI + Postgres API that forecasts store x SKU demand and converts it into staffing plans to hit service targets.
-
-- Real domain tables and migrations
-- Moving-average baseline and staffing heuristic
-- One-command launch with Docker
-- Postman collection + seed data
-- CI and clean architecture
-
-Repo includes a demo script and README guide. I am exploring roles where I can ship systems like this at pace.
