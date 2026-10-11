@@ -1,5 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy import select
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
 from app.db.session import get_db
@@ -20,6 +21,10 @@ def create_store(payload: StoreCreate, db: Session = Depends(get_db)):
         raise HTTPException(status_code=409, detail="Store code exists")
     store = Store(code=payload.code, name=payload.name)
     db.add(store)
-    db.commit()
+    try:
+        db.commit()
+    except IntegrityError:  # concurrent insert won the unique-constraint race
+        db.rollback()
+        raise HTTPException(status_code=409, detail="Store code exists") from None
     db.refresh(store)
     return store
