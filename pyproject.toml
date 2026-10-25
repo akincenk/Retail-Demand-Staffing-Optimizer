@@ -9,7 +9,7 @@ dependencies = [
     "pydantic==2.14.0",
     "SQLAlchemy==2.1.4",
     "psycopg[binary]==3.3.6",
-    "alembic==1.20.0",
+    "alembic==1.20.1",
 ]
 
 [project.optional-dependencies]
