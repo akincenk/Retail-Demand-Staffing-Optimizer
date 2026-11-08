@@ -7,7 +7,7 @@ dependencies = [
     "fastapi==0.159.1",
     "uvicorn[standard]==0.54.0",
     "pydantic==2.14.2",
-    "SQLAlchemy==2.1.6",
+    "SQLAlchemy==2.1.8",
     "psycopg[binary]==3.3.6",
     "alembic==1.20.1",
 ]
